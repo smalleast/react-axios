@@ -38,7 +38,12 @@
       setResponseInterceptor: function () {
         var self = this;
         axios.interceptors.response.use(function (response) {
-          return self.success(response);
+          if (response.data&&response.data.status_code === 200) {
+            return self.success(response);
+          } else {
+            self.error(response);
+            nx.error(response);
+          }
         }, function (error) {
           self.error(error);
           nx.error(error);
